@@ -1,0 +1,23 @@
+<?php
+// Include database configuration
+include 'db_config.php';
+
+// Get data from form
+$title = $_POST['title'];
+$content = $_POST['content'];
+$author = $_POST['author'];
+
+// Prepare and execute query
+$sql = "INSERT INTO expositions (title, content, author) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $title, $content, $author);
+
+if ($stmt->execute()) {
+    echo "Exposition saved successfully! <a href='view_expositions.php'>View Expositions</a>";
+} else {
+    echo "Error: " . $conn->error;
+}
+
+$stmt->close();
+$conn->close();
+?>
